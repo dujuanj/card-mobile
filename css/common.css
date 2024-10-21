@@ -62,3 +62,31 @@
 .main_color{
     color:#333
 }
+.mt-5{
+    margin-top:-5px
+}
+.flex1{
+    flex:1
+}
+.under_line{
+    border-bottom: 1px dashed #f3f3f3;
+    padding-bottom: 0.5rem;
+}
+.f-left{
+    float: left;
+}
+.ts{
+    width: 50%;
+}
+.ts input{
+    color:#979797
+}
+.mb_5{
+    margin-bottom: 5px;
+}
+.order input{
+    text-align: right;
+}
+.green{
+    color:#489873
+}
