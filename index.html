@@ -34,6 +34,7 @@
           const value10 = ref('Z4680241015070615941900869')
           const value11 = ref('2024-10-15 07:06:14');
           const value12 = ref('￥15');
+          const value13 = ref('2109960618')
           const edit = ref (true);
           const lastClickTime = ref(0); // 用于记录上次点击时间
           const doubleClickThreshold = 300; // 双击时间间隔，单位毫秒
@@ -87,6 +88,10 @@
           const handleDoubleClick=()=>{
             edit.value=false
           }
+           const closeShareSheet = () => {
+                showShare.value = false;
+                };
+
           return {
             showShare,
             handleInfo,
@@ -104,6 +109,7 @@
             value10,
             value11,
             value12,
+            value13,
             maskedValue,
             maskedValue6,
             maskedValue7,
@@ -114,7 +120,8 @@
              handleDoubleClick,
              lastClickTime,
              doubleClickThreshold,
-             handleClick
+             handleClick,
+             closeShareSheet
           };
         },
     template: `
@@ -138,17 +145,19 @@
             <van-cell :border="false" >
                 <template #default>
                   
-                    <div class="custom-content flex space-between">
+                    <div class="custom-content ">
                         <h3>白云山进山车辆预约</h3>
-                        <h3 class='normal'>￥15</h3>
                     </div>
                 </template>
             </van-cell>
-            <van-cell :border="false">
+            <van-cell :border="false" style='margin-top:-16px'>
                 <template #default>
                     <div class="custom-content">
-                        <span>待消费</span>
-                        <h3 class='my-5'>进山车辆预约0829</h3>
+                        <span class=''>待消费</span>
+                          <div class="custom-content flex space-between">
+                        <h3>进山车辆预约0829</h3>
+                        <h3 class='normal'>￥15</h3>
+                    </div>
                         <van-row class="row-spacing">
                             <van-col span="5">游玩日期</van-col>
                             <van-col span="10" offset="4" ><van-field  v-model="value2" placeholder=""  />
@@ -167,7 +176,7 @@
                         <van-row class="row-spacing">
                             <van-col span="5">已检票</van-col>
                             <van-col span="10" offset="4" >
-                                <div class='black'>1</div>
+                                <div class='black'>0</div>
                             </van-col>
                         </van-row>
                         <van-row class="row-spacing">
@@ -360,17 +369,35 @@
             <van-share-sheet
                 v-model:show="showShare"
                 :options="options"
-                title="查看二维码"
+                cancel-text='返回'
+                @click-overlay="closeShareSheet" 
             >
+                <template #title>
+                    <div>
+                        <h3 style='display:inline'>查看二维码</h3>
+                        <span class='f-right'>
+                             <van-icon name="cross" size="18" style='color:#333' @click="closeShareSheet"/>
+                        </span>
+                    </div>
+                </template>
                 <template #description>
                     <div>
-                        <h3 class='black normal'>进山车辆预约0829</h3>
-                        <p>辅助码</p>
-                        <div>
+                        <h3 class='black  under_line'>进山车辆预约0829</h3>
+                        <p class='mb_5'>
+                            <span class='f-left'
+                                style='margin-left:30%'
+                            > 辅助码 : </span>&nbsp;
+                             <van-field
+                                class='f-left ts'
+                                style='margin-top:-4px'
+                                v-model="value13" placeholder=""  />
+                        </p>
+                        <div style='margin-top:10px'>
                             <img src='img/code.webp' width='150' />
-                            <p>已使用 0 | 未使用 1</p>
+                            <p>点击二维码刷新状态</p>
+                            <p>已使用 0 | 未使用 <span class='green'>1</span></p>
                         </div>
-                        <van-row class="row-spacing mt_30" :gutter="[20, 20]">
+                        <van-row class="row-spacing order mt_30" :gutter="[20, 20]">
                             <van-col span="12" class='black'>订单编号</van-col>
                             <van-col span="12" class='black right'>
                                  <van-field  v-model="value9" placeholder=""  />
@@ -380,7 +407,7 @@
                                  <van-field  v-model="value11" placeholder=""  />
                             </van-col>
                             <van-col span="12" class='black'>购票数量</van-col>
-                            <van-col span="12" class='black right'>4</van-col>
+                            <van-col span="12" class='black right'>1</van-col>
                         </van-row>
                     </div>
                 </template>
